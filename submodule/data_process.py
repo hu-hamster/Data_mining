@@ -65,3 +65,44 @@ def replace_elem(sourcefile, savefile):
     csv_writer.writerow(head)
     csv_writer.writerows(body)
 
+
+"""
+** usage: read alone element
+"""
+def get_alone_elem(filename):
+    HeartDisease, AlcoholDrinking, Stroke, MentalHealth = [], [], [], []
+    all = []
+    csv_reader = csv.reader(open(filename))
+    for line in csv_reader:
+        if line[0] == 'HeartDisease':
+            HeartDisease.append(line[0])
+            AlcoholDrinking.append(line[1])
+            Stroke.append(line[2])
+            MentalHealth.append(line[3])
+        else:
+            HeartDisease.append(int(line[0]))
+            AlcoholDrinking.append(int(line[1]))
+            Stroke.append(int(line[2]))
+            MentalHealth.append(int(line[3]))
+    all.append(HeartDisease)
+    all.append(AlcoholDrinking)
+    all.append(Stroke)
+    all.append(MentalHealth)
+    return all
+
+
+"""
+** usage: csv to libsvm
+** arguments: 
+**** sourcefile: csv file
+**** savefile: libsvm file
+"""
+def ToLibSvm(sourcefile, savefile):
+    resultfile = open(savefile, "w")
+    csv_reader = csv.reader(open(sourcefile))
+    csv_reader.__next__()
+    for line in csv_reader:
+        temp = line[0]+" "
+        temp = temp + "1:" + str(float(line[1])) + " 2:" + str(float(line[2])) + " 3:" + str(float(line[3])) + '\n'
+        resultfile.write(temp)
+    resultfile.close()
