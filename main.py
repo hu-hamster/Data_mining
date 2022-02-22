@@ -1,7 +1,5 @@
 from pyspark.sql import SparkSession
-from pyspark.sql import Row
 from pyspark.context import SparkContext
-import pandas as pd
 from submodule.data_process import filter_data, replace_elem, get_alone_elem, ToLibSvm
 from submodule.visiable import plt_all
 from spark.Decision_Tree import Decision
@@ -21,16 +19,16 @@ if __name__ == '__main__':
     sc = SparkContext("local")
     spark = SparkSession(sc)
     # Filter out useful information
-    # filter_data(spark, source_file, save_file, filter_item)
-    # replace_elem(save_file, feature_file)
-    # all_element = get_alone_elem(feature_file)
-    # plt_all(all_element)
+    filter_data(spark, source_file, save_file, filter_item)
+    replace_elem(save_file, feature_file)
+    all_element = get_alone_elem(feature_file)
+    plt_all(all_element)
 
     df = spark.read.csv(feature_file, header=True)
     ToLibSvm(feature_file, libSvm_file)
-    # Decision(spark, libSvm_file)
-    # Random(spark,libSvm_file)
-    # Gradient_boosted(spark, libSvm_file)
-    # Naive_Bayes(spark, libSvm_file)
+    Decision(spark, libSvm_file)
+    Random(spark,libSvm_file)
+    Gradient_boosted(spark, libSvm_file)
+    Naive_Bayes(spark, libSvm_file)
     Decision_regression(spark, libSvm_file)
 
